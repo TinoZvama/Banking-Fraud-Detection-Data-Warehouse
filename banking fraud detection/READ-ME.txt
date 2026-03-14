@@ -1,0 +1,174 @@
+# Banking Fraud Detection Data Warehouse
+
+## Project Overview
+
+This project demonstrates the design and implementation of a **fraud detection data warehouse** capable of handling large-scale banking transaction data. The system simulates a real-world financial environment where millions of transactions must be processed, stored, and analyzed efficiently to identify fraudulent activity.
+
+The project combines **data engineering, SQL performance optimization, ETL automation, and analytics visualization** to create a complete end-to-end data system.
+
+---
+
+## Architecture
+
+The project follows a layered architecture typical of modern data warehouse systems.
+
+Synthetic Data → Staging Layer → Data Warehouse → Aggregation Layer → Dashboard
+
+### Components
+
+**Synthetic Data Generation**
+
+* Python used to generate realistic banking datasets
+* 1,000,000+ transactions
+* Fraud probability simulation based on transaction risk factors
+
+**Staging Layer**
+
+* Raw data loaded into PostgreSQL staging schema
+* Serves as the ingestion layer before transformation
+
+**Data Warehouse Layer**
+
+* Star schema dimensional model
+* Partitioned fact table for transactions
+* Dimension tables for customers, accounts, and merchants
+
+**Aggregation Layer**
+
+* Customer fraud summary tables
+* Materialized views for daily fraud statistics
+* Optimized for reporting performance
+
+**Visualization Layer**
+
+* Power BI dashboard for fraud monitoring and analysis
+
+---
+
+## Technologies Used
+
+* **PostgreSQL** – Data warehouse database
+* **Python** – Synthetic data generation and ETL pipeline
+* **Pandas / NumPy / Faker** – Data simulation
+* **SQLAlchemy / psycopg2** – Database connectivity
+* **Power BI** – Data visualization and dashboarding
+
+---
+
+## Data Model
+
+### Fact Table
+
+**fact_transactions**
+
+Contains transactional banking activity including:
+
+* transaction_id
+* transaction_date
+* customer_id
+* account_id
+* merchant_id
+* amount
+* fraud flag
+
+This table is **range partitioned by transaction date** to support high-performance analytical queries.
+
+---
+
+### Dimension Tables
+
+* **dim_customer** – Customer demographic and risk attributes
+* **dim_account** – Account type and status information
+* **dim_merchant** – Merchant category and fraud risk level
+
+---
+
+## Performance Optimization
+
+Several techniques were implemented to improve query performance and scalability:
+
+* Range partitioning of large transaction tables
+* Indexing on high-frequency query columns
+* Aggregation tables for customer fraud summaries
+* Materialized views for daily fraud statistics
+* Query benchmarking using `EXPLAIN ANALYZE`
+
+---
+
+## ETL Pipeline
+
+A Python-based ETL pipeline automates the process of loading new transaction batches into the warehouse.
+
+Pipeline steps:
+
+1. Extract new transaction data from CSV
+2. Load raw data into staging tables
+3. Insert new records into the partitioned fact table
+4. Refresh aggregation tables
+5. Refresh materialized views used for reporting
+
+This pipeline simulates the **daily transaction ingestion process used by financial institutions**.
+
+---
+
+## Dashboard
+
+A Power BI dashboard was developed to visualize key fraud analytics metrics, including:
+
+* Total transactions
+* Total fraud cases
+* Fraud rate
+* Fraud amount trends
+* Fraud distribution by merchant category
+* High-risk customer identification
+
+The dashboard allows interactive filtering by date, merchant category, and customer risk profile.
+
+---
+
+## Key Skills Demonstrated
+
+* Data warehouse architecture
+* Dimensional data modeling
+* SQL performance optimization
+* Partitioning large datasets
+* ETL pipeline development
+* Fraud analytics
+* Business intelligence dashboard design
+
+---
+
+## Project Structure
+
+project/
+│
+├── data/
+│   ├── customers.csv
+│   ├── accounts.csv
+│   ├── merchants.csv
+│   ├── transactions.csv
+│
+├── etl/
+│   └── etl_fraud_pipeline.py
+│
+├── sql/
+│   ├── schema.sql
+│   ├── partitions.sql
+│   ├── indexes.sql
+│
+├── dashboard/
+│   └── fraud_dashboard.pbix
+│
+└── README.md
+
+---
+
+## Future Improvements
+
+Possible extensions to the project include:
+
+* Incremental loading strategies
+* Airflow pipeline orchestration
+* Real-time streaming ingestion
+* Machine learning fraud detection models
+* Cloud-based deployment
